@@ -285,69 +285,64 @@ header {
     }
 }
 
+
 /* ========================================================
    SMARTPHONE DRAWER FALLBACK TRIGGER (< 768px) */
+/* ========================================================
+   SMARTPHONE DRAWER FALLBACK TRIGGER (< 768px) 
+   ======================================================== */
 @media (max-width: 767px) {
     .hamburger {
         display: block; /* Turns on mobile hamburger click icon */
-        z-index: 1002;  /* Keeps icon layered safely above the modal card */
+        z-index: 1002;  
+        position: relative;
     }
     
     .navbar {
         padding: 15px 20px;
         position: relative;
+        background-color: var(--pure-white, #ffffff);
+        z-index: 1002; /* Keeps navbar strip above everything else */
     }
 
-    /* Converts nav menu links into a centralized floating dashboard overlay card */
+    /* Converts nav menu links into a clean drop-down drawer straight from the header */
     .nav-menu {
-        position: fixed;
+        position: absolute; /* Attaches directly below the relative navbar */
+        top: 100%; /* Positions right at the bottom edge of the header */
+        left: 0;
         
-        /* --- PERFECT CENTRAL COORD LOCKS --- */
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.9); /* Centers layout perfectly and shrinks slightly for a pop effect */
+        width: 100%; /* Spans fully across the phone screen width */
+        height: auto; 
+        max-height: 0; /* Keeps it completely hidden by default */
+        overflow: hidden; /* Clears internal links out of view until active */
         
-        width: calc(100% - 40px); /* Leaves a clean 20px boundary gap around phone edges */
-        max-width: 320px; /* Keeps card compact on larger phones */
-        height: auto; /* Drops full-height layout down to wrap tightly around content links */
-        max-height: 80vh; /* Prevents overflow clipping on super short screen resolutions */
-        
-        background-color: var(--pure-white);
-        border-radius: 20px; /* Smooth professional curved corners */
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); /* Deep luxury card depth drop-shadow */
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        background-color: var(--pure-white, #ffffff);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1); /* Soft shadow beneath the dropped block */
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
         
         display: flex;
         flex-direction: column;
-        align-items: center; /* Centers text link elements inside the popup box */
-        justify-content: center;
-        padding: 40px 30px;
-        gap: 22px;
+        align-items: center; 
+        justify-content: flex-start;
+        padding: 0 24px; /* Zero vertical padding when shut to prevent gap leaks */
+        gap: 12px;
         
-        /* --- HYPER-SECURE HIDDEN STATE LAYERS --- */
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-        
-        /* Transition handles positioning scale pops along with fading states seamlessly */
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.3s ease,
-                    visibility 0.3s ease;
+        /* Smooth vertical slide transition */
+        transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                    padding 0.35s ease;
         z-index: 1001;
     }
     
-    /* --- FULLY ENGAGED CENTRAL REVEAL VIEW --- */
+    /* --- SLIDE OPEN STATE --- */
     .nav-menu.active {
-        /* Restores real center position and scales up to 100% size scale simultaneously */
-        transform: translate(-50%, -50%) scale(1); 
-        opacity: 1;
-        visibility: visible;
-        pointer-events: auto; /* Fully ready to receive finger gestures clicks */
+        max-height: 85vh; /* Expands open dynamically based on internal elements */
+        padding: 30px 24px; /* Smoothly introduces inner spacing as it rolls down */
+        overflow-y: auto; /* Adds a scrollbar safely if the phone screen is extremely short */
     }
 
     .nav-menu li {
         width: 100%;
-        text-align: center; /* Centers text strings perfectly across wide columns */
+        text-align: center; 
     }
 
     .nav-link {
@@ -355,14 +350,28 @@ header {
         font-weight: 600;
         width: 100%;
         display: block;
-        padding: 8px 0;
-        color: var(--text-dark);
-        transition: color 0.2s ease;
+        padding: 12px 0;
+        color: var(--text-dark, #333333);
+        border-radius: 8px;
+        transition: all 0.2s ease;
     }
     
     .nav-link:hover,
     .nav-link.active {
         color: var(--primary-teal);
+        background-color: rgba(0, 128, 128, 0.05); 
+    }
+
+    /* Full-width Book Appointment Action Button */
+    .nav-menu .btn-primary {
+        display: block;
+        width: 100%;
+        padding: 14px 0 !important;
+        font-size: 1rem !important;
+        font-weight: 600;
+        border-radius: 10px !important;
+        margin-top: 10px; 
+        box-shadow: 0 6px 15px rgba(0, 128, 128, 0.15);
     }
 }
 
@@ -469,6 +478,92 @@ header {
     height: auto;
     display: block;
     object-fit: cover;
+}
+
+
+/* Container styling for the entire strip */
+.stats-strip {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap; /* Automatically wraps items on smaller screens/mobile */
+    gap: 20px;
+    padding: 30px 20px;
+    background-color: #f8fafc; /* Clean, soft light background */
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    margin: 20px 0;
+}
+
+/* Individual stat item box */
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+    min-width: 250px; /* Prevents text crowding on tablets */
+    padding: 15px;
+    transition: transform 0.2s ease;
+}
+
+/* Optional subtle hover effect */
+.stat-item:hover {
+    transform: translateY(-2px);
+}
+
+/* Icon layout and coloring */
+.stat-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    background-color: #e0f2fe; /* Soft blue background accent */
+    color: #0284c7; /* Professional clinical blue */
+    font-size: 1.5rem;
+    border-radius: 50%; /* Perfect circle */
+    flex-shrink: 0; /* Prevents the circle from squeezing */
+}
+
+/* Meta text wrappers */
+.stat-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Large metric / heading text */
+.stat-meta h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0f172a; /* Slate black for strong readability */
+    margin: 0;
+    line-height: 1.2;
+    font-family: sans-serif;
+}
+
+/* Small detail / description label */
+.stat-meta p {
+    font-size: 0.95rem;
+    color: #64748b; /* Muted slate gray */
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.4;
+    font-family: sans-serif;
+}
+
+/* Responsive adjustment for small mobile devices */
+@media (max-width: 576px) {
+    .stats-strip {
+        flex-direction: column;
+        align-items: flex-start; /* Aligns left on narrow mobile screens */
+        padding: 20px;
+    }
+    
+    .stat-item {
+        width: 100%;
+        min-width: unset;
+    }
 }
 
 /* --- FIXED STATS STRIP (NOW 100% VISIBLE & LAYERED IN FRONT) --- */
